@@ -19,17 +19,21 @@ internal static class Fixture
 
         if (envIsLargeProject == "True")
         {
+#pragma warning disable CS0162 // This code can be reached based on the current generated Mediator.
             if (Mediator.TotalMessages <= 100)
                 throw new InvalidOperationException(
                     $"Unexpected messages count: {Mediator.TotalMessages}. Expected: more than 100"
                 );
+#pragma warning restore CS0162
         }
         else
         {
             if (Mediator.TotalMessages >= 100)
+#pragma warning disable CS0162 // This code can be reached based on the current generated Mediator.
                 throw new InvalidOperationException(
                     $"Unexpected messages count: {Mediator.TotalMessages}. Expected: less than 100"
                 );
+#pragma warning restore CS0162
         }
 
         var envLifetime = Environment.GetEnvironmentVariable("ServiceLifetime");

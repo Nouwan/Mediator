@@ -6,5 +6,7 @@ public interface IRequestHandler<in TRequest, TResponse>
     ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 }
 
-public interface IRequestHandler<in TRequest> : IRequestHandler<TRequest, Unit>
-    where TRequest : IRequest<Unit> { }
+public interface IRequestHandler<in TRequest>
+{
+    ValueTask Handle(TRequest request, CancellationToken cancellationToken);
+}

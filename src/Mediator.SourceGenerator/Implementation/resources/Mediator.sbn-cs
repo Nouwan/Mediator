@@ -158,17 +158,7 @@ namespace {{ InternalsNamespace }}
     }
 
     {{~ for wrapperType in RequestMessageHandlerWrappers ~}}
-    [global::System.CodeDom.Compiler.GeneratedCode("Mediator.SourceGenerator", "{{ GeneratorVersion }}")]
-    internal interface {{ wrapperType.InterfaceTypeNameWithGenericParameter }} : {{ wrapperType.HandlerBase }}
-    {
-        {{ wrapperType.ReturnTypeName }} Handle(
-            {{~ if !ServiceLifetimeIsSingleton ~}}
-            global::{{ MediatorNamespace }}.Mediator mediator,
-            {{~ end ~}}
-            global::Mediator.I{{ wrapperType.MessageType }}<TResponse> request,
-            global::System.Threading.CancellationToken cancellationToken
-        );
-    }
+
     [global::System.CodeDom.Compiler.GeneratedCode("Mediator.SourceGenerator", "{{ GeneratorVersion }}")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.Diagnostics.DebuggerStepThroughAttribute]

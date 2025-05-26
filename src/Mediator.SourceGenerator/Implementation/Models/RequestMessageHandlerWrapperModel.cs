@@ -2,14 +2,14 @@ namespace Mediator.SourceGenerator;
 
 internal sealed record RequestMessageHandlerWrapperModel
 {
-    public RequestMessageHandlerWrapperModel(string messageType, CompilationAnalyzer analyzer)
+    public RequestMessageHandlerWrapperModel(string messageType, string genericParameters, CompilationAnalyzer analyzer)
     {
         FullNamespace = $"global::{analyzer.MediatorNamespace}.Internals";
         MessageType = messageType;
         IsStreaming = messageType.StartsWith("Stream", StringComparison.Ordinal);
         TypeName = $"{messageType}HandlerWrapper";
-        TypeNameWithGenericParameters = $"{TypeName}<TRequest, TResponse>";
-        InterfaceTypeNameWithGenericParameter = $"I{messageType}HandlerBase<TResponse>";
+        TypeNameWithGenericParameters = $"{TypeName}{genericParameters}";
+        InterfaceTypeNameWithGenericParameter = IsStreaming ? "IStreamMessageHandlerBase" : "IMessageHandlerBase";
     }
 
     public string FullNamespace { get; }

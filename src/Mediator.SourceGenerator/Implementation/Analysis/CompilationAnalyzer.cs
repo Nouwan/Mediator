@@ -118,12 +118,12 @@ internal sealed class CompilationAnalyzer
 
             RequestMessageHandlerWrappers = new RequestMessageHandlerWrapperModel[]
             {
-                new RequestMessageHandlerWrapperModel("Request", this),
-                new RequestMessageHandlerWrapperModel("StreamRequest", this),
-                new RequestMessageHandlerWrapperModel("Command", this),
-                new RequestMessageHandlerWrapperModel("StreamCommand", this),
-                new RequestMessageHandlerWrapperModel("Query", this),
-                new RequestMessageHandlerWrapperModel("StreamQuery", this),
+                new RequestMessageHandlerWrapperModel("Request", "<TRequest, TResponse>", this),
+                new RequestMessageHandlerWrapperModel("StreamRequest", "<TRequest, TResponse>", this),
+                new RequestMessageHandlerWrapperModel("Command", "<TRequest, TResponse>", this),
+                new RequestMessageHandlerWrapperModel("StreamCommand", "<TRequest, TResponse>", this),
+                new RequestMessageHandlerWrapperModel("Query", "<TRequest, TResponse>", this),
+                new RequestMessageHandlerWrapperModel("StreamQuery", "<TRequest, TResponse>", this),
             }.ToImmutableArray();
 
             TryLoadBaseMessageSymbols(out _baseMessageSymbols, out _notificationInterfaceSymbol);
@@ -633,6 +633,7 @@ internal sealed class CompilationAnalyzer
                                     );
                                     return false;
                                 }
+
                                 mapping[requestMessageSymbol] = null;
                                 requestMessage.SetHandler(handler);
                             }
@@ -657,6 +658,7 @@ internal sealed class CompilationAnalyzer
                             {
                                 return true;
                             }
+
                             _notificationMessageHandlers.Add(
                                 new NotificationMessageHandler(typeSymbol, _notificationHandlerInterfaceSymbol, this)
                             );
@@ -913,6 +915,7 @@ internal sealed class CompilationAnalyzer
                         );
                         continue;
                     }
+
                     if (statementExpression.Expression is not AssignmentExpressionSyntax assignment)
                     {
                         ReportDiagnostic(
@@ -922,6 +925,7 @@ internal sealed class CompilationAnalyzer
                         );
                         continue;
                     }
+
                     if (!ProcessAddMediatorAssignmentStatement(assignment, semanticModel, cancellationToken))
                         continue;
                 }
@@ -997,6 +1001,7 @@ internal sealed class CompilationAnalyzer
                     );
                     return;
                 }
+
                 var typeSymbol = semanticModel.GetTypeInfo(identifier.Type, cancellationToken).Type;
                 if (typeSymbol is null)
                 {
@@ -1236,6 +1241,7 @@ internal sealed class CompilationAnalyzer
                     );
                     continue;
                 }
+
                 var assemblySymbol = typeSymbol.OriginalDefinition.ContainingAssembly;
 
                 if (_symbolComparer.Equals(_unitSymbol!.ContainingAssembly, assemblySymbol))
@@ -1298,6 +1304,7 @@ internal sealed class CompilationAnalyzer
                     );
                     continue;
                 }
+
                 pipelineTypeSymbol = pipelineTypeSymbol.OriginalDefinition;
 
                 var interfaceSymbol =
@@ -1452,6 +1459,7 @@ internal sealed class CompilationAnalyzer
                 .OfType<IFieldSymbol>()
                 .Single(m => (int)m.ConstantValue! == value);
         }
+
         if (symbol is ILocalSymbol localSymbol && localSymbol.HasConstantValue)
         {
             var value = (int)localSymbol.ConstantValue!;

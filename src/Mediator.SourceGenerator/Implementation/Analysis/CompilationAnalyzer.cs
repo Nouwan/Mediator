@@ -116,9 +116,10 @@ internal sealed class CompilationAnalyzer
 
             TryParseConfiguration();
 
-            RequestMessageHandlerWrappers = new RequestMessageHandlerWrapperModel[]
+            RequestMessageHandlerWrappers = new[]
             {
                 new RequestMessageHandlerWrapperModel("Request", "<TRequest, TResponse>", this),
+                new RequestMessageHandlerWrapperModel("Request", "<TRequest>", this),
                 new RequestMessageHandlerWrapperModel("StreamRequest", "<TRequest, TResponse>", this),
                 new RequestMessageHandlerWrapperModel("Command", "<TRequest, TResponse>", this),
                 new RequestMessageHandlerWrapperModel("StreamCommand", "<TRequest, TResponse>", this),
